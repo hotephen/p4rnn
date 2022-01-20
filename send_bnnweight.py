@@ -33,7 +33,7 @@ def main():
     iface = sys.argv[3]
 
 # read 120x120 bit weight line by line from txt
-    f = open("output.txt", 'r')
+    f = open("weight.txt", 'r')
     lines = f.readlines()
     lines = [line.rstrip('\n') for line in lines]
     w=[]
