@@ -185,7 +185,7 @@ def handle_pkt(pkt):
         
     total = count + wrong
     if(total != 0):
-        recall = count/total
+        recall = float(count)/float(total)
     else:
         recall = 0
 

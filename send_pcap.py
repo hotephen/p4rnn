@@ -23,12 +23,14 @@ def main():
     iface = "veth0"
 
     for i in range(1,len(pkts)): # 10~19 (11~20 in wireshark)
-        pkts[i].show()
+        # pkts[i].show()
         try:
             sendp(pkts[i], iface=iface)
             print("packet {} sent.".format(i))
         except OSError:
             print("packet length: ", len(pkts[i]))
+        except AttributeError:
+            print("Attribute Error")
 
 
 if __name__ == '__main__':
