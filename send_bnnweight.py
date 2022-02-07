@@ -10,46 +10,39 @@ from scapy.all import Packet
 from scapy.all import Ether, IP, UDP, TCP
 from scapy.all import hexdump, BitField, BitFieldLenField, ShortEnumField, X3BytesField, ByteField, XByteField
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--weight_file', required=False, type=str, default='weight_bnn.txt')
+args = parser.parse_args()
+
+
 class Weightwriting(Packet):
 
     name = "Weightwriting"
 
     fields_desc = [
-        BitField("index", 1, 8), # index: 0~119, only need 7
-        BitField("weight", 10, 40) # weight: (in decimal, largest is) 2^120 -1 = 1.1329*10^36, only need 37
+        BitField("index", 1, 32), # index: 0~119, only need 7
+        BitField("weight", 0, 120) # weight: (in decimal, largest is) 2^120 -1 = 1.1329*10^36, only need 37
     ]
 
 def main():
-    # 3 arguments needed: src / dst / veth
-    if len(sys.argv)<3:
-        print('pass 1 arguments: <destination> ')
-        exit(1)
-
-# src addr
-    addr = socket.gethostbyname(sys.argv[1])
-# dst addr
-    addr1 = socket.gethostbyname(sys.argv[2])
-# veth
-    iface = sys.argv[3]
 
 # read 120x120 bit weight line by line from txt
-    f = open("weight.txt", 'r')
+    f = open(args.weight_file, 'r')
     lines = f.readlines()
     lines = [line.rstrip('\n') for line in lines]
     w=[]
 
-    print("sending on interface %s (Bmv2 port)" % (iface))
+    print("sending on interface %s (Bmv2 port)" % ('veth0'))
 
 # send one line (120 bits converted to decimal) for 120 times
-    for i in range(0, 120):
+    for i in range(0, 121):
         w.append(int(lines[i], 2))
-        pkt = Ether() / IP(src=addr, dst=addr1) / Weightwriting(index=i, weight=w[i]) / UDP()
+        pkt = Ether() / IP(proto=61) / Weightwriting(index=i, weight=w[i])
         pkt.show()
         hexdump(pkt)
-        sendp(pkt, iface=iface, verbose=False)
+        sendp(pkt, iface='veth0', verbose=False)
 
 if __name__ == '__main__':
     main()
 
-#sudo python3 ./send_bnnweight.py 10.0.0.1 10.0.0.2 veth0
-#sudo python3 ./receive.py --i veth1
+#sudo python3 ./send_bnnweight.py --weight_file weight_180000.txt
