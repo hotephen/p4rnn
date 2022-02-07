@@ -1,5 +1,10 @@
-# Implementing BNN 120x120 Weight sending
 
-## Introduction
+# NN Test
 
-The objective of this repository is to send BNN weight (120x120) by send_bnnweight.py
+1. Execute Switch 
+
+2. sudo python send_bnnweight.py
+
+3. sudo python receive_count.py
+
+4. sudo python send_pcap.py
