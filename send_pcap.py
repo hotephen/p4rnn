@@ -19,7 +19,7 @@ def send_packet(pkt):
 def main():
 
     # sniff(offline="/home/p4net/output11_00000_19700101090000.pcap", prn=send_packet)
-    pkts = rdpcap("/home/p4net/output11_00000_19700101090000.pcap")
+    pkts = rdpcap("pcap/output11_00000_19700101090000.pcap")
     iface = "veth0"
 
     for i in range(1,len(pkts)): # 10~19 (11~20 in wireshark)
