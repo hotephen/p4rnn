@@ -21,14 +21,17 @@ global total
 count = 0
 wrong = 0
 total = 0
+tos_count = 0
 
 def handle_pkt(pkt):
     global count
     global wrong
     global total
+    global tos_count
 
     if(IP in pkt):
         if (pkt[IP].tos == 1):
+            tos_count = tos_count + 1
             if(pkt[IP].src == "192.168.2.112" and pkt[IP].dst == "131.202.243.84"):
                 count = count + 1
             elif(pkt[IP].src == "192.168.5.122" and pkt[IP].dst == "198.164.30.2"):
@@ -186,7 +189,7 @@ def handle_pkt(pkt):
     else:
         recall = 0
 
-    print("total : {}, right : {}, wrong : {}, recall rate : {}".format(total,count,wrong,recall))
+    print("total : {}, tos_count : {}, right : {}, wrong : {}, recall rate : {}".format(total,tos_count,count,wrong,recall))
     # print("right : ", count) # true posiive
     # print("right : ", wrong) # false negative
     # print("recall rate : ", count/total) # true positive / (true positive + false negative)
