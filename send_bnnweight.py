@@ -11,7 +11,7 @@ from scapy.all import Ether, IP, UDP, TCP
 from scapy.all import hexdump, BitField, BitFieldLenField, ShortEnumField, X3BytesField, ByteField, XByteField
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--weight_file', required=False, type=str, default='weight_bnn.txt')
+parser.add_argument('--weight_file', required=False, type=str, default='weight/weight_bnn.txt')
 args = parser.parse_args()
 
 
