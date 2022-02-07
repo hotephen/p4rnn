@@ -1,4 +1,6 @@
- 
+
+# NN Test
+
 1. Execute Switch 
 
 2. sudo python send_bnnweight.py
