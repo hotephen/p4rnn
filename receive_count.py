@@ -29,7 +29,7 @@ def handle_pkt(pkt):
     global total
     global tos_count
 
-    if(IP in pkt):
+    if(IP in pkt and (UDP in pkt or TCP in pkt)):
         if (pkt[IP].tos == 1):
             tos_count = tos_count + 1
             if(pkt[IP].src == "192.168.2.112" and pkt[IP].dst == "131.202.243.84"):
